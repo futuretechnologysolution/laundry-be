@@ -1,18 +1,24 @@
 {
     "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true
+      "es2021": true,
+      "node": true,
+      "mocha": true
     },
-    "extends": "google",
+    "extends": [
+      "airbnb-base"
+    ],
     "parserOptions": {
-        "ecmaVersion": "latest"
+      "ecmaVersion": 2020
     },
     "rules": {
-        "linebreak-style": "off",
-        "no-underscore-dangle": "off",
-        "class-methods-use-this": "off",
-        "no-unused-vars": "off",
-        "no-console": "off"
-    }
-}
+      "linebreak-style": "off",
+      "no-underscore-dangle": "off",
+      "class-methods-use-this": "off",
+      "no-unused-vars": "off",
+      "no-console": "off"
+    },
+    "import/no-extraneous-dependencies": [
+      "error", {"devDependencies": true}
+    ]
+  }
+  
