@@ -1,6 +1,7 @@
 import { addColors, createLogger, format, transports } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 
+import _ from 'lodash';
 import { LOG_FORMAT } from '../fixtures/enum';
 
 const LEVEL = Symbol.for('level');

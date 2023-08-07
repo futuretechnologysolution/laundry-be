@@ -1,6 +1,5 @@
 import { BaseError as SequelizeBaseError } from 'sequelize';
-
-/* eslint-disable no-unused-vars */
+import _ from 'lodash';
 import { ValidationError } from '../../libs/errors/validation';
 import logger from '../../libs/logger';
 
@@ -32,10 +31,10 @@ export default config => {
     next();
   };
 
-  const logError = (err, req, res, next) => {
+  const logError = (err, req, res) => {
     const response = {
-      code: err.status || 500,
-      message: err.message || 'No message available',
+      code: err.status ?? 500,
+      message: err.message ?? 'No message available',
     };
 
     if (env === 'dev') {

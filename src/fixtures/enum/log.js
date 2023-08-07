@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const LOG_ROOT_DIR = './logs';
 export const LOG_DEFAULT_FILENAME = 'access.log';
 export const LOG_ERROR_FILENAME = 'error.log';
