@@ -8,8 +8,8 @@
   },
   "scripts": {
     "babel-node": "babel-node",
-    "start": "node src/index.js",
-    "dev": "nodemon --exec npm run babel-node -- ./src/index.js",
+    "start": "node src/app.js",
+    "dev": "nodemon --exec npm run babel-node -- ./src/app.js",
     "migration:create": "cross-var sequelize-cli migration:generate --migrations-path=src/database/migrations --name=$npm_config_name",
     "migration:run": "npm run build && cross-var sequelize-cli db:migrate ",
     "migration:undo": "cross-var sequelize-cli db:migrate:undo --name $npm_config_name.js",
