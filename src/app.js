@@ -1,7 +1,19 @@
-const express = require('express');
+import http from 'http';
+import config, { express } from './config';
+import logger from './libs/logger';
 
-const app = express();
+const { host, port } = config;
+async function init() {
+  const server = http.createServer(express);
 
-app.listen(3000,() => {
-  console.log('Server started on port 3000');
-})
+  try {
+    await server.listen(port, host, () => {
+      logger.info('Server', `start listening on ${host}:${port}`);
+    });
+  } catch (err) {
+    logger.error(err);
+    process.exit(1);
+  }
+}
+
+init();
