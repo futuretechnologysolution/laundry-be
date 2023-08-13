@@ -9,7 +9,6 @@ export const FOREIGN_KEY_CONSTRAINT = additionalConstraint => ({
 });
 
 export const FIELDS_DISABLED_ON_UPDATE = ['id', 'createdAt', 'createdBy', 'status'];
-export * from './user';
 
 export const ADDITIONAL_FIELDS = {
   createdAt: { type: Sequelize.DATE, field: 'created_at' },
@@ -31,3 +30,9 @@ export const ADDITIONAL_FIELDS = {
     field: 'deleted_by',
   },
 };
+
+export * from './user';
+export * from './role';
+export * from './tableService';
+export * from './customer';
+export * from './order';

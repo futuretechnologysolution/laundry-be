@@ -1,22 +1,30 @@
-'use strict';
+import Sequelize from 'sequelize';
+import config from '../../config';
+import {
+  ADDITIONAL_FIELDS,
+  FOREIGN_KEY_CONSTRAINT,
+  ROLES_TABLE_REFERENCE,
+  USERS_TABLE_REFERENCE,
+  USER_ROLES_TABLE_NAME,
+} from '../../fixtures/models';
 
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
-  },
+const { dbSchema } = config;
 
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  }
+export const schemaAttributes = {
+  userId: FOREIGN_KEY_CONSTRAINT({
+    type: Sequelize.INTEGER,
+    references: USERS_TABLE_REFERENCE,
+    field: 'user_id',
+  }),
+  roleId: FOREIGN_KEY_CONSTRAINT({
+    type: Sequelize.INTEGER,
+    references: ROLES_TABLE_REFERENCE,
+    field: 'role_id',
+  }),
+  ...ADDITIONAL_FIELDS,
+};
+
+export default {
+  up: queryInterface => queryInterface.createTable(USER_ROLES_TABLE_NAME, schemaAttributes, { schema: dbSchema }),
+  down: queryInterface => queryInterface.dropTable({ tableName: USER_ROLES_TABLE_NAME, schema: dbSchema }),
 };
