@@ -2,14 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import config from '../../config';
 
-const {
-  jwtSecret,
-  jwtRefreshSecret,
-  jwtSpecialTokenSecret,
-  jwtSecretExpiration,
-  jwtRefreshSecretExpiration,
-  jwtSpecialTokenExpiration,
-} = config;
+const { jwtSecret, jwtRefreshSecret, jwtSecretExpiration, jwtRefreshSecretExpiration } = config;
 
 const generateToken = ({ id, username: name, root }) =>
   jwt.sign({ id, name, root }, jwtSecret, { expiresIn: jwtSecretExpiration });
@@ -17,18 +10,15 @@ const generateToken = ({ id, username: name, root }) =>
 const generateRefreshToken = ({ id, username: name, root }) =>
   jwt.sign({ id, name, root }, jwtRefreshSecret, { expiresIn: jwtRefreshSecretExpiration });
 
-const generateSpecialToken = ({ id, username: name, root }, infinite = false) =>
-  jwt.sign({ id, name, root }, jwtSpecialTokenSecret, { expiresIn: infinite ? '1y' : jwtSpecialTokenExpiration });
-
 const verifyRefreshToken = token => {
   try {
-    return jwt.verify(token, jwtSpecialTokenSecret);
+    return jwt.verify(token, jwtRefreshSecret);
   } catch {
     return false;
   }
 };
 
-const verifySpecialToken = token => {
+const verifyToken = token => {
   try {
     return jwt.verify(token, jwtSecret);
   } catch {
@@ -38,8 +28,7 @@ const verifySpecialToken = token => {
 
 export default {
   generateToken,
-  generateSpecialToken,
   generateRefreshToken,
   verifyRefreshToken,
-  verifySpecialToken,
+  verifyToken,
 };

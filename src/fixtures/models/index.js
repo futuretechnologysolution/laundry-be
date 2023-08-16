@@ -36,3 +36,4 @@ export * from './role';
 export * from './tableService';
 export * from './customer';
 export * from './order';
+export * from './blockedToken';

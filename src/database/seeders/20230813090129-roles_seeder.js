@@ -7,6 +7,7 @@ const records = [
     id: 1,
     name: 'Super Admin',
     code: 'superadmin',
+    root: true,
   },
   {
     id: 2,
