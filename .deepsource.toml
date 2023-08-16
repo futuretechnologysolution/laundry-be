@@ -8,3 +8,6 @@ name = "javascript"
 
 [[analyzers]]
 name = "secrets"
+
+[[analyzers.meta]]
+  skip_doc_coverage = ["class-expression", "method-definition"]

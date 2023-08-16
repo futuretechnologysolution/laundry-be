@@ -4,7 +4,7 @@ import { flatMapAsync } from '../libs/utils';
 import { User as userRepository } from '../models';
 
 const hasPermission = (menus, method) => {
-  let query;
+  let query = {};
 
   switch (method) {
     case 'GET':

@@ -4,7 +4,7 @@ const defaultLimit = 10;
 
 const transformInclude = rawInclude => rawInclude?.split(',');
 
-export const paginate = async (req, res, next) => {
+export const paginate = (req, res, next) => {
   const { page = defaultPage, limit = defaultLimit, include } = req.query;
 
   // req.query = _.pick(req.query, ['sort', 'limit', 'search', 'searchFields', 'fields', ...FIELDS_ADDITIONAL_FILTER]);
