@@ -1,17 +1,16 @@
+/* eslint-disable import/no-import-module-exports */
 /* eslint-disable no-param-reassign */
 import fs from 'fs';
 import path from 'path';
 
-import Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize';
 
 import config from '../config';
 import { USER_TABLE_REFERENCE } from '../fixtures/models';
 import logger from '../libs/logger';
 import { applyFieldsQuery, applySearchQuery, applySortQuery } from '../libs/sequelize';
 
-require('sequelize-hierarchy')(Sequelize);
-
-const { dbName, dbUsername, dbPassword, dbHost, dbDialect, dbDebug, dbSchema } = config;
+const { dbName, dbUser, dbPassword, dbHost, dbDialect, dbDebug, dbSchema } = config;
 
 const basename = path.basename(__filename);
 // eslint-disable-next-line no-console
@@ -20,7 +19,7 @@ const queryLogger = message => {
   logger.query('', message);
 };
 
-const sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
+const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
   host: dbHost,
   dialect: dbDialect,
   timezone: '+07:00',
@@ -90,7 +89,7 @@ const sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
 sequelize
   .authenticate()
   .then(() => {
-    logger.info('Database', 'connection to MMS DB has been established successfully.');
+    logger.info('Database', 'connection to DB has been established successfully.');
   })
   .catch(err => {
     logger.error(err);
@@ -111,7 +110,15 @@ const db = {};
 fs.readdirSync(__dirname)
   .filter(file => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js')
   .forEach(file => {
-    const model = sequelize.import(path.join(__dirname, file));
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    const modelDefinitionFunction = require(path.join(__dirname, file)).default;
+    if (typeof modelDefinitionFunction === 'function') {
+      const model = modelDefinitionFunction(sequelize, Sequelize.DataTypes);
+      db[model.name] = model;
+    } else {
+      logger.error(`modelDefinitionFunction in ${file} is not a function`);
+    }
+    const model = modelDefinitionFunction(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 
@@ -129,4 +136,4 @@ Sequelize.postgres.DATE.parse = value => value.toLocaleString();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-export default db;
+module.exports = db;

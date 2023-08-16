@@ -45,8 +45,4 @@ module.exports = {
     'mocha/valid-suite-description': 2,
     'mocha/valid-test-description': 2,
   },
-  globals: {
-    _: true,
-    moment: true,
-  },
 };

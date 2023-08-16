@@ -4,7 +4,7 @@ export const applySearchQuery = (model, options) => {
   const { sequelize } = model;
 
   if (options.search) {
-    let keys;
+    let keys = '';
 
     if (options.searchFields) {
       keys = options.searchFields.split(',');

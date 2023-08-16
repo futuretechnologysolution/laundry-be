@@ -1,23 +1,32 @@
 {
   "name": "laundry-be",
   "version": "1.0.0",
-  "description": "This project is services data for laundry-app ",
-  "main": "index.js",
+  "description": "Laundry Backend",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
   "scripts": {
-    "babel-node": "babel-node",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
-    "dev": "nodemon --exec npm run babel-node -- ./src/index.js",
+    "babel": "babel-node",
+    "start": "node src/app.js",
+    "dev": "nodemon --exec npm run babel -- ./src/app.js",
     "migration:create": "cross-var sequelize-cli migration:generate --migrations-path=src/database/migrations --name=$npm_config_name",
-    "migration:run": "npm run build && cross-var sequelize-cli db:migrate ",
+    "migration:run": " cross-var sequelize-cli db:migrate ",
     "migration:undo": "cross-var sequelize-cli db:migrate:undo --name $npm_config_name.js",
     "migration:undo:all": "cross-var sequelize-cli db:migrate:undo:all",
     "seed:create": "cross-var sequelize-cli seed:generate --seeders-path=src/database/seeders --name=$npm_config_name",
-    "seed:run": "npm run build && cross-var sequelize-cli db:seed --seed $npm_config_name.js",
-    "seed:run:all": "npm run build && sequelize-cli db:seed:all",
+    "seed:run": " cross-var sequelize-cli db:seed --seed $npm_config_name.js",
+    "seed:run:all": " sequelize-cli db:seed:all",
     "seed:undo": "cross-var sequelize-cli db:seed:undo --seed $npm_config_name.js",
     "seed:undo:all": "sequelize-cli db:seed:undo:all",
-    "db:refresh": "npm run migration:undo:all  && npm run build && sequelize-cli db:migrate && sequelize-cli db:seed:all"
+    "db:refresh": "npm run migration:undo:all  && sequelize-cli db:migrate && sequelize-cli db:seed:all",
+    "test": "mocha --require @babel/register --recursive 'test/**/*.test.js'",
+    "test:watch": "nodemon --exec mocha --require @babel/register --recursive 'test/**/*.test.js' ",
+    "coverage": "nyc --reporter=text npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/futuretechnologysolution/laundry-be.git"
   },
   "author": "FTS",
   "license": "ISC",
@@ -31,6 +40,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.22.9",
     "@babel/register": "^7.22.5",
+    "chai": "^4.3.7",
     "eslint": "^8.42.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.10.0",
@@ -38,9 +48,14 @@
     "eslint-plugin-import": "^2.28.0",
     "eslint-plugin-mocha": "^10.1.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "mocha": "^10.2.0",
     "prettier": "^3.0.1",
     "sequelize-cli": "^6.6.1"
   },
+  "bugs": {
+    "url": "https://github.com/futuretechnologysolution/laundry-be/issues"
+  },
+  "homepage": "https://github.com/futuretechnologysolution/laundry-be#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "chalk": "^4",
@@ -55,16 +70,18 @@
     "jsonwebtoken": "^9.0.1",
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
-    "mocha": "^10.2.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
+    "nanoid": "^4.0.2",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.22",
+    "nyc": "^15.1.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.11.2",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.32.1",
+    "sequelize-hierarchy": "^2.0.4",
     "uuid": "^9.0.0",
     "winston": "^3.10.0",
     "winston-daily-rotate-file": "^4.7.1"
@@ -72,6 +89,7 @@
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
       "style": "module"
-    }
+    },
+    "sequelize": "^6.32.1"
   }
 }

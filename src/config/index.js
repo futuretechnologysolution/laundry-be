@@ -1,15 +1,15 @@
 import Express from './express';
 
-require('./global');
 require('dotenv').config();
 
 export const express = Express({
-  bodyParserExtended: process.env.BODY_PARSER_EXTENDED || true,
-  bodyParserLimit: `${process.env.BODY_PARSER_LIMIT_IN_MB || '50'}mb`,
+  bodyParserExtended: process.env.BODY_PARSER_EXTENDED ?? true,
+  bodyParserLimit: `${process.env.BODY_PARSER_LIMIT_IN_MB ?? '50'}mb`,
   env: process.env.NODE_ENV,
   jwtSecret: process.env.ACCESS_TOKEN_KEY,
-  jwtSchema: process.env.JWT_SCHEMA || 'bearer',
+  jwtSchema: process.env.JWT_SCHEMA ?? 'bearer',
 });
+
 export default {
   host: process.env.SERVICE_HOST,
   port: process.env.SERVICE_PORT,
@@ -25,7 +25,7 @@ export default {
   dbSchema: process.env.DB_SCHEMA,
   // JWT
   jwtSecret: process.env.ACCESS_TOKEN_KEY,
-  jwtSecretExpiration: `${process.env.ACCESS_TOKEN_AGE}m`,
+  jwtSecretExpiration: `${process.env.ACCESS_TOKEN_AGE}h`,
   jwtRefreshSecret: process.env.REFRESH_TOKEN_KEY,
   jwtRefreshSecretExpiration: `${process.env.REFRESH_TOKEN_AGE}d`,
 };

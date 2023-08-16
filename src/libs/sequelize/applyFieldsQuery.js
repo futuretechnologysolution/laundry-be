@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const applyFieldsQuery = (model, options) => {
   if (options.fields && typeof options.fields === 'string') {
     const fields = options.fields.split(',');

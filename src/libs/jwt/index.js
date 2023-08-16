@@ -2,33 +2,23 @@ import jwt from 'jsonwebtoken';
 
 import config from '../../config';
 
-const {
-  jwtSecret,
-  jwtRefreshTokenSecret,
-  jwtSpecialTokenSecret,
-  jwtExpiration,
-  jwtRefreshTokenExpiration,
-  jwtSpecialTokenExpiration,
-} = config;
+const { jwtSecret, jwtRefreshSecret, jwtSecretExpiration, jwtRefreshSecretExpiration } = config;
 
 const generateToken = ({ id, username: name, root }) =>
-  jwt.sign({ id, name, root }, jwtSecret, { expiresIn: jwtExpiration });
+  jwt.sign({ id, name, root }, jwtSecret, { expiresIn: jwtSecretExpiration });
 
 const generateRefreshToken = ({ id, username: name, root }) =>
-  jwt.sign({ id, name, root }, jwtRefreshTokenSecret, { expiresIn: jwtRefreshTokenExpiration });
-
-const generateSpecialToken = ({ id, username: name, root }, infinite = false) =>
-  jwt.sign({ id, name, root }, jwtSpecialTokenSecret, { expiresIn: infinite ? '1y' : jwtSpecialTokenExpiration });
+  jwt.sign({ id, name, root }, jwtRefreshSecret, { expiresIn: jwtRefreshSecretExpiration });
 
 const verifyRefreshToken = token => {
   try {
-    return jwt.verify(token, jwtRefreshTokenSecret);
+    return jwt.verify(token, jwtRefreshSecret);
   } catch {
     return false;
   }
 };
 
-const verifySpecialToken = token => {
+const verifyToken = token => {
   try {
     return jwt.verify(token, jwtSecret);
   } catch {
@@ -38,8 +28,7 @@ const verifySpecialToken = token => {
 
 export default {
   generateToken,
-  generateSpecialToken,
   generateRefreshToken,
   verifyRefreshToken,
-  verifySpecialToken,
+  verifyToken,
 };
