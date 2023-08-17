@@ -19,7 +19,7 @@ const Controller = services => {
   const logout = async (req, res, next) => {
     const { token, refreshToken } = req.body;
     try {
-      await authService.logout(token, refreshToken);
+      await authService.logout(token, refreshToken, req.user);
       res.json(customJson(res.statusCode, 'Success', {}));
     } catch (error) {
       next(error);
@@ -29,7 +29,7 @@ const Controller = services => {
   const refreshToken = async (req, res, next) => {
     const { token } = req.body;
     try {
-      const result = await authService.refreshToken(token);
+      const result = await authService.refreshToken(token, req.user);
       const isMessage = 'message' in result;
       res.json(
         customJson(
