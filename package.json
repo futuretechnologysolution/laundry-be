@@ -8,7 +8,7 @@
   },
   "scripts": {
     "babel": "babel-node",
-    "start": "node src/app.js",
+    "start": "npm run babel -- src/app.js",
     "dev": "nodemon --exec npm run babel -- ./src/app.js",
     "migration:create": "cross-var sequelize-cli migration:generate --migrations-path=src/database/migrations --name=$npm_config_name",
     "migration:run": " cross-var sequelize-cli db:migrate ",

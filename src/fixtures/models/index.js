@@ -31,6 +31,27 @@ export const ADDITIONAL_FIELDS = {
   },
 };
 
+export const ADDITIONAL_MODEL_FIELDS = DataTypes => ({
+  createdAt: { type: DataTypes.DATE, field: 'created_at' },
+  createdBy: {
+    type: DataTypes.INTEGER,
+    references: USER_TABLE_REFERENCE,
+    field: 'created_by',
+  },
+  updatedAt: { type: DataTypes.DATE, field: 'updated_at' },
+  updatedBy: {
+    type: DataTypes.INTEGER,
+    references: USER_TABLE_REFERENCE,
+    field: 'updated_by',
+  },
+  deletedAt: { type: DataTypes.DATE, field: 'deleted_at' },
+  deletedBy: {
+    type: DataTypes.INTEGER,
+    references: USER_TABLE_REFERENCE,
+    field: 'deleted_by',
+  },
+});
+
 export * from './user';
 export * from './role';
 export * from './tableService';
