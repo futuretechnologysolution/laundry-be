@@ -57,30 +57,35 @@ const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
         return options;
       },
       beforeCreate(instance, options) {
-        if (options.user?.id && instance?.createdBy === undefined) {
-          instance.createdBy = options.user?.id;
-          instance.updatedBy = options.user?.id;
+        const userId = options.user?.id ?? options.id ?? null;
+        if (userId && instance?.createdBy === undefined) {
+          instance.createdBy = userId;
+          instance.updatedBy = userId;
         }
       },
       beforeBulkCreate(instances, options) {
+        const userId = options.user?.id ?? options.id ?? null;
         instances.forEach(instance => {
-          if (options.user?.id) {
+          if (userId) {
             if (instance?.createdBy === undefined) {
-              instance.createdBy = options.user?.id;
+              instance.createdBy = userId;
             }
 
-            instance.updatedBy = options.user?.id;
+            instance.updatedBy = userId;
           }
         });
       },
       beforeUpdate(instance, options) {
-        instance.updatedBy = options.user?.id;
+        const userId = options.user?.id ?? options.id ?? null;
+        instance.updatedBy = userId;
       },
       beforeUpsert(instance, options) {
-        instance.updatedBy = options.user?.id;
+        const userId = options.user?.id ?? options.id ?? null;
+        instance.updatedBy = userId;
       },
       beforeDestroy(instance, options) {
-        instance.deletedBy = options.user?.id;
+        const userId = options.user?.id ?? options.id ?? null;
+        instance.deletedBy = userId;
       },
     },
   },
