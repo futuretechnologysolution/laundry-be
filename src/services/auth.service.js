@@ -3,9 +3,9 @@ import { compare } from 'bcrypt';
 import { AuthError } from '../libs/errors/auth';
 import logger from '../libs/logger';
 import jwtHelper from '../libs/jwt';
-import { BlockedToken as blockedTokenRepository, sequelize } from '../models';
+import { sequelize } from '../models';
 
-const service = userRepository => ({
+const service = (userRepository, blockedTokenRepository) => ({
   async login(username, password) {
     const user = await userRepository.findOne({
       where: { username: { [Op.iLike]: `${username}` } },
