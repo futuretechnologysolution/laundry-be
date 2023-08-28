@@ -22,8 +22,9 @@ export const schemaAttributes = {
     field: 'service_id',
     references: SERVICES_TABLE_REFERENCE,
   }),
-  totalWeight: { type: Sequelize.INTEGER, field: 'total_weight' },
+  totalWeight: { type: Sequelize.DECIMAL, field: 'total_weight' },
   totalPrice: { type: Sequelize.INTEGER, field: 'total_price' },
+  status: { type: Sequelize.STRING, allowNull: false, defaultValue: 'unpaid' },
   ...ADDITIONAL_FIELDS,
 };
 
