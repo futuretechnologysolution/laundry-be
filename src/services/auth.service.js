@@ -27,10 +27,10 @@ const service = (userRepository, blockedTokenRepository) => ({
     return { token, refreshToken };
   },
 
-  async logout(token, refreshToken) {
+  async logout(token, refreshToken, user) {
     try {
       const result = await sequelize.transaction(async transaction => {
-        await blockedTokenRepository.bulkCreate([{ token }, { token: refreshToken }], transaction);
+        await blockedTokenRepository.bulkCreate([{ token }, { token: refreshToken }], user, transaction);
         return true;
       });
 
@@ -47,7 +47,7 @@ const service = (userRepository, blockedTokenRepository) => ({
       const user = await userRepository.findOne({ where: { username: isVerified.name } });
       const token = jwtHelper.generateToken(user);
       const refreshToken = jwtHelper.generateRefreshToken(user);
-      await blockedTokenRepository.create({ token: oldRefreshToken });
+      await blockedTokenRepository.create({ token: oldRefreshToken }, user);
 
       return { token, refreshToken };
     } catch (error) {

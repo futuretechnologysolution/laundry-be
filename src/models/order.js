@@ -23,8 +23,9 @@ export default (sequelize, DataTypes) => {
       field: 'service_id',
       references: SERVICES_TABLE_REFERENCE,
     }),
-    totalWeight: { type: DataTypes.INTEGER, field: 'total_weight' },
+    totalWeight: { type: DataTypes.DECIMAL, field: 'total_weight' },
     totalPrice: { type: DataTypes.INTEGER, field: 'total_price' },
+    status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'unpaid' },
   };
 
   const Order = sequelize.define(ORDERS_MODEL_NAME, schemaAttributes, { tableName: ORDERS_TABLE_NAME });

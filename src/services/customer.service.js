@@ -27,7 +27,7 @@ const service = customerRepository => ({
       throw new Error(error.message);
     }
   },
-  async customer(id) {
+  async customerById(id) {
     try {
       const result = await customerRepository.findOne({ where: { id } });
       return result;
@@ -57,6 +57,16 @@ const service = customerRepository => ({
       const customer = await customerRepository.findOne({ where: { id } });
       await customer.destroy({ user });
 
+      return customer;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  async findCustomer(search) {
+    try {
+      const customer = await customerRepository.findOne({
+        where: { [Op.or]: [{ phone: { [Op.iLike]: `%${search}%` } }, { name: { [Op.iLike]: `%${search}%` } }] },
+      });
       return customer;
     } catch (error) {
       throw new Error(error.message);

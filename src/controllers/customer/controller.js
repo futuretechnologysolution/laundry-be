@@ -18,7 +18,7 @@ const Controller = services => {
   const getCustomer = async (req, res, next) => {
     const { id } = req.params;
     try {
-      const result = await customerService.customer(id);
+      const result = await customerService.customerById(id);
       res
         .status(result ? httpStatus.OK : httpStatus.NOT_FOUND)
         .json(customJson(result ? 'Success' : 'NotFound', result));
@@ -32,7 +32,7 @@ const Controller = services => {
     try {
       body.id = uuidv4();
       const result = await customerService.storeCustomer(body, user);
-      res.json(customJson(res.statusCode, 'Success', result));
+      res.json(customJson(httpStatus.CREATED, 'Success', result));
     } catch (error) {
       logger.error(error.message);
       next(error);
@@ -43,7 +43,7 @@ const Controller = services => {
     const { id } = params;
     try {
       const result = await customerService.updateCustomer(id, body, user);
-      res.json(customJson(res.statusCode, 'Success', result));
+      res.json(customJson(httpStatus.OK, 'Success', result));
     } catch (error) {
       logger.error(error);
       next(error);
@@ -54,7 +54,7 @@ const Controller = services => {
     const { user } = req;
     try {
       const result = await customerService.deleteCustomer(id, user);
-      res.json(customJson(res.statusCode, 'Success', result));
+      res.json(customJson(httpStatus.OK, 'Success', result));
     } catch (error) {
       logger.error(error);
       next(error);
